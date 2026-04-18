@@ -2,6 +2,7 @@ from collections import defaultdict
 from datetime import datetime
 from fastapi import FastAPI
 import requests
+
 import os
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,7 +13,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -22,7 +23,7 @@ API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
 @app.get("/cep/{cep}")
 def home(cep:str):
-    cep = '08151210'
+    
     UrlCep = f"https://viacep.com.br/ws/{cep}/json/"
 
     resultado = requests.get(UrlCep)
@@ -74,16 +75,3 @@ def home(cep:str):
     return resultado_final
 
         
-    #     resultado_final.append({
-    #         "data": data,
-    #         "min": min(temps),
-    #         "max": max(temps),
-    #         "horarios": [
-    #             {
-    #                 "hora": p["dt_txt"].split(" ")[1],
-    #                 "temp": p["main"]["temp"],
-    #                 "descricao": p["weather"][0]["description"]
-    #             }
-    #             for p in previsoes
-    #         ]
-    #     })
